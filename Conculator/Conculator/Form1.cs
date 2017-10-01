@@ -42,6 +42,7 @@ namespace Conculator
 
         private void NhapPhepToan(object sender, EventArgs e)
         {
+
             TinhKetQua();
 
             Button btn = (Button)sender;
