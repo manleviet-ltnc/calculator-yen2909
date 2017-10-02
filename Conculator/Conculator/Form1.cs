@@ -32,7 +32,11 @@ namespace Conculator
         private void NhapSo(string so)
         {
             if (isTypingNumber)
-                lblDisplay.Text = lblDisplay.Text + so;
+            {
+                if (lblDisplay.Text == "0")
+                    lblDisplay.Text = "";
+                lblDisplay.Text += so;
+            }
             else
             {
                 lblDisplay.Text = so;
@@ -42,8 +46,8 @@ namespace Conculator
 
         private void NhapPhepToan(object sender, EventArgs e)
         {
-
-            TinhKetQua();
+            if (nho != 0)
+                TinhKetQua();
 
             Button btn = (Button)sender;
             switch (btn.Text)
@@ -57,6 +61,14 @@ namespace Conculator
             nho = double.Parse(lblDisplay.Text);
 
             isTypingNumber = false;
+        }
+
+        private void btnBang_Click(object sender, EventArgs e)
+        {
+            TinhKetQua();
+            isTypingNumber = false;
+            nho = 0;
+            pheptoan = PhepToan.None;
         }
 
         private void TinhKetQua()
@@ -77,17 +89,11 @@ namespace Conculator
 
         }
 
-        private void btnBang_Click(object sender, EventArgs e)
-        {
-            TinhKetQua();
-            isTypingNumber = false;
-        }
-
         private void FrmMain_KeyPress(object sender, KeyPressEventArgs e)
         {
             switch (e.KeyChar)
             {
-                case 'o':
+                case '0':
                 case '1':
                 case '2':
                 case '3':
@@ -97,10 +103,81 @@ namespace Conculator
                 case '7':
                 case '8':
                 case '9':
-                    NhapSo("" + e.KeyChar);
+                    Nhapso("" + e.KeyChar);
                     break;
-
+                    Nhapso("" + e.KeyChar);
+                    break;
+                case '+':
+                    btnCong.PerformClick();
+                    break;
+                case '-':
+                    btnTru.PerformClick();
+                    break;
+                case '*':
+                    btnNhan.PerformClick();
+                    break;
+                case '/':
+                    btnChia.PerformClick();
+                    break;
+                case '=':
+                    btnBang.PerformClick();
+                    break;
+                default:
+                    break;
             }
         }
+
+        private void btnCan_Click(object sender, EventArgs e)
+        {
+            double v;
+            v = double.Parse(lblDisplay.Text);
+            lblDisplay.Text = Math.Sqrt(v).ToString();
+        }
+
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (lblDisplay.Text.Length > 0)
+                lblDisplay.Text = lblDisplay.Text.Remove(lblDisplay.Text.Length - 1);
+            if (lblDisplay.Text == "")
+                lblDisplay.Text = "0.";
+        }
+
+        private void btnPhanTram_Click(object sender, EventArgs e)
+        {
+            lblDisplay.Text = ((double.Parse(lblDisplay.Text) / 100)).ToString();
+        }
+
+        private void btnDoiDau_Click(object sender, EventArgs e)
+        {
+            lblDisplay.Text = (-1 * (double.Parse(lblDisplay.Text))).ToString();
+        }
+
+        private void btnThapPhan_Click_1(object sender, EventArgs e)
+        {
+            if (lblDisplay.Text.Contains("."))
+            {
+                if (lblDisplay.Text == "0.")
+                {
+                    lblDisplay.Text = "";
+                    NhapSo("0.");
+                }
+                return;
+            }
+            lblDisplay.Text = lblDisplay.Text + ".";
+        }
     }
+}
+          
+     
+
+
+
+        if (lblDisplay.Text == "0.")
+        {
+            lblDisplay.Text = "";
+            Nhapso("0.");
+        }
+        return;
+    }
+    lblDisplay.Text += ".";
 }
